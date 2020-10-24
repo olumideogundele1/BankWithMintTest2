@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.listener.ConsumerSeekAware;
+import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,7 @@ import java.util.stream.StreamSupport;
 
 @Component
 @Slf4j
-public class MintResponseListener extends KafkaProperties.Listener implements ConsumerSeekAware {
+public class MintResponseListener implements ConsumerSeekAware {
 
     @Value("${spring.kafka.template.default-topic}")
     private String kafkaTopic;
@@ -39,8 +40,9 @@ public class MintResponseListener extends KafkaProperties.Listener implements Co
        // this.kafkaConsumer = kafkaConsumer;
     }
 
-    @KafkaListener(topics = "com.ng.vela.even.card_verified",containerFactory = "listenerFactory")
+    @KafkaListener(topics = "com.ng.vela.even.card_verified",containerFactory = "listenerFactory",autoStartup = "true")
     public void onMessage(@Payload Set<MintResponse> mintResponses){
+        //acknowledgment.acknowledge();
         log.info("Mint Response " + mintResponses);
       //  Set<MintResponse> responseSet = new LinkedHashSet<>();
         responses = mintResponses;

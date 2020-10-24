@@ -24,11 +24,10 @@ public class MintClassController {
 
 
     @GetMapping("/list-of-bins")
-    @ResponseBody
     public String listOfBins(Model model){
-        //model.addAttribute("bins",kafkaConsumer.consume());
+        model.addAttribute("bins",kafkaConsumer.consume());
         log.info("Response Set " + kafkaConsumer.consume());
-        return "Welcome Kafka";
+        return "index";
     }
 
 
