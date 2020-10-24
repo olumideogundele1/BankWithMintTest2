@@ -26,6 +26,8 @@ public class KafkaConfiguration {
     @Autowired
     Environment environment;
 
+
+
     @Bean
     public ConsumerFactory<String, MintResponse> consumerFactory(){
         val deserilizer = new JsonDeserializer<MintResponse>();
@@ -48,6 +50,7 @@ public class KafkaConfiguration {
     public ConcurrentKafkaListenerContainerFactory<String,MintResponse> listenerFactory(){
         ConcurrentKafkaListenerContainerFactory<String,MintResponse> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
+        factory.setBatchListener(true);
         return factory;
     }
 }
